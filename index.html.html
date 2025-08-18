@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap Interativo: Modelo de Competências</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Corporate Calm -->
+    <!-- Application Structure Plan: A single-page application with a vertical narrative flow. It starts with Block 1 (Reason Why), establishing the strategic context with motivators leading to core principles. Block 2 (Endgame Vision) visually demonstrates the target state. Block 3 (The Path) explains the necessity of a pilot project given the tech stack timeline. Block 4 (Governance & Roadmap) provides the execution details, integrating the previously built RACI matrix and interactive timeline. This structure guides the user from the strategic "why" to the operational "how," making the proposal logical and compelling. A sticky top navigation allows users to jump to any section easily. -->
+    <!-- Visualization & Content Choices: Report Info: Motivators & Principles -> Goal: Inform/Relate -> Presentation: Two-column layout with cards and connecting visual elements -> Interaction: Static, for clarity -> Justification: Clearly separates problems (motivators) from solutions (principles) while showing their direct relationship. Method: HTML/CSS. Report Info: Endgame Vision -> Goal: Organize/Inform -> Viz: HTML/CSS diagram -> Justification: Creates a simple, clear flowchart of the target operating model without complex libraries. Method: HTML/CSS. Report Info: Project Phases & Durations -> Goal: Visualize Change/Timeline -> Viz: Horizontal Bar Chart -> Interaction: Hover for details, click to scroll -> Justification: Provides an immediate overview of the project's schedule. Library: Chart.js. Report Info: RACI Matrix -> Goal: Organize/Inform -> Presentation: Styled HTML table -> Justification: A standard and universally understood format for defining roles and responsibilities. Method: HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        .tab-active {
+            border-color: #3b82f6;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            border-color: transparent;
+            color: #6b7280;
+        }
+        .raci-table th, .raci-table td {
+            padding: 12px 16px;
+            text-align: center;
+        }
+        .raci-table th:first-child, .raci-table td:first-child {
+            text-align: left;
+        }
+        .raci-tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 9999px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .raci-r { background-color: #dbeafe; color: #1e40af; }
+        .raci-a { background-color: #fee2e2; color: #991b1b; }
+        .raci-c { background-color: #d1fae5; color: #065f46; }
+        .raci-i { background-color: #f3e8ff; color: #6b21a8; }
+        .flow-box {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            background-color: white;
+            text-align: center;
+            font-size: 0.875rem;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #9ca3af;
+            margin: 0.5rem 0;
+        }
+        .flow-group-box {
+            border: 2px solid #d1d5db;
+            padding: 1.5rem 1rem 1rem 1rem;
+            border-radius: 0.75rem;
+            position: relative;
+        }
+        .flow-group-label {
+            position: absolute;
+            top: -0.8rem;
+            left: 1rem;
+            background-color: #f8f9fa;
+            padding: 0 0.5rem;
+            font-weight: 600;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <h1 class="text-xl font-bold text-gray-700">Piloto de Competências</h1>
+                <div class="hidden sm:flex items-center space-x-6 text-sm font-medium">
+                    <a href="#reason-why" class="text-gray-600 hover:text-blue-600 transition-colors">Motivadores</a>
+                    <a href="#vision" class="text-gray-600 hover:text-blue-600 transition-colors">Visão Final</a>
+                    <a href="#path" class="text-gray-600 hover:text-blue-600 transition-colors">O Caminho</a>
+                    <a href="#governance" class="text-gray-600 hover:text-blue-600 transition-colors">Governança</a>
+                    <a href="#roadmap" class="text-gray-600 hover:text-blue-600 transition-colors">Roadmap</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <section id="overview" class="mb-16 text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Piloto de Implementação do Modelo de Competências</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+                Uma proposta para pilotar o modelo de competências no GB, iniciando com um projeto-piloto na VP de Gente.
+            </p>
+        </section>
+
+        <!-- Bloco 1: Reason Why -->
+        <section id="reason-why" class="mb-16 bg-white p-6 sm:p-8 rounded-xl shadow-md scroll-mt-20">
+            <h3 class="text-2xl font-bold text-center mb-8">Motivadores e Premissas</h3>
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-gray-700">Motivadores da Evolução (Oportunidades/Dores)</h4>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold text-blue-600">Tangibilizar a Estratégia do GB</h5>
+                            <p class="text-sm text-gray-600">O modelo skills-based permite que a estratégia de negócio seja traduzida de forma mais eficaz nos mecanismos e produtos de capital humano da organização.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold text-blue-600">Reduzir Subjetividade</h5>
+                            <p class="text-sm text-gray-600">Muitos processos de RH atuais são baseados em decisões subjetivas, dificultando a tomada da melhor decisão para o futuro.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold text-blue-600">Conectar os Produtos de Gente</h5>
+                            <p class="text-sm text-gray-600">Os mecanismos de RH são isolados. Falta um frame teórico que unifique a jornada do colaborador.</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-lg">
+                            <h5 class="font-semibold text-blue-600">Aumentar Eficiência com Tecnologia</h5>
+                            <p class="text-sm text-gray-600">A implementação de skills torna-se mais eficiente com novas tecnologias como IA generativa, reduzindo o trabalho moroso dos times.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-lg mb-4 text-gray-700">Premissas Norteadoras</h4>
+                    <div class="space-y-4">
+                        <div class="p-5 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
+                            <p class="font-semibold text-green-800">A organização e o RH se tornarão mais eficientes a partir de um modelo de skills.</p>
+                        </div>
+                        <div class="p-5 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
+                            <p class="font-semibold text-green-800">O Modelo de skills tangibiliza como vamos construir a capacidade do GB de executar para as mudanças do futuro.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloco 2: Visão Final do Produto -->
+        <section id="vision" class="mb-16 bg-white p-6 sm:p-8 rounded-xl shadow-md scroll-mt-20">
+            <h3 class="text-2xl font-bold text-center mb-4">Visão Final do Produto</h3>
+            <p class="text-center text-gray-600 max-w-4xl mx-auto mb-8">
+                A visão de "end game" é criar um piloto que valide a hipótese de ganho de eficiência sobre a gestão do capital humano do GB a partir do modelo de skills. **Este piloto focará na construção do modelo Bottom-up (mapeamento de skills existentes)**, enquanto a visão Top-down (desdobramento de capabilities estratégicas) ainda está em construção.
+            </p>
+            
+            <div class="space-y-6">
+                <!-- Container for Top-down and Bottom-up boxes -->
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="flow-group-box">
+                        <span class="flow-group-label">Top-down (Visão Futura)</span>
+                        <div class="grid grid-cols-1 gap-4 items-stretch">
+                             <div class="flow-box">Realizar análise estratégica</div>
+                             <div class="flow-box">Identificar as competências organizacionais do negócio (capabilities)</div>
+                             <div class="flow-box">Priorizar capabilities estratégicas</div>
+                        </div>
+                    </div>
+    
+                    <div class="flow-group-box">
+                        <span class="flow-group-label">Bottom-up (Foco do Piloto)</span>
+                        <div class="grid grid-cols-1 gap-4 items-stretch">
+                            <div class="flow-box">Aplicar taxonomia de skills</div>
+                            <div class="flow-box">Mapear pool de skills</div>
+                            <div class="flow-box">Analisar gaps de skills (Proficiência, cobertura, senioridade, concentração)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connector Element for Desktop -->
+                <div class="relative h-16 hidden md:block">
+                    <!-- Line from left box -->
+                    <div class="absolute top-0 left-1/4 w-px h-8 bg-gray-400"></div>
+                    <!-- Line from right box -->
+                    <div class="absolute top-0 right-1/4 w-px h-8 bg-gray-400"></div>
+                    <!-- Horizontal line -->
+                    <div class="absolute top-8 left-1/4 right-1/4 h-px bg-gray-400"></div>
+                    <!-- Vertical line down -->
+                    <div class="absolute top-8 left-1/2 w-px h-8 bg-gray-400 -translate-x-1/2"></div>
+                    <!-- Arrow -->
+                    <div class="absolute bottom-0 left-1/2 text-2xl text-gray-500 -translate-x-1/2">&#9660;</div>
+                </div>
+
+                <!-- Arrow for Mobile -->
+                <div class="flex justify-center md:hidden"><div class="flow-arrow">&#11167;</div></div>
+
+                <div class="flex flex-col items-center space-y-4">
+                    <div class="flow-box w-full md:w-1/2">Identificar abrangência e amplitude da capability</div>
+                    <div class="flow-arrow">&#11167;</div>
+                    <div class="flow-box w-full md:w-1/2">Desenhar estratégias de RH para alavancar competências</div>
+                    <div class="flow-arrow">&#11167;</div>
+                    <div class="w-full flex justify-center">
+                         <div class="flow-box w-full md:w-1/2">Desenho de produtos de RH a partir do modelo de competências</div>
+                    </div>
+                </div>
+
+            </div>
+
+             <p class="text-center text-gray-600 max-w-3xl mx-auto mt-12">
+                Isso nos permitirá saber quais skills temos, quais são mais fáceis de recrutar, quais conseguimos desenvolver e como estamos em relação às skills necessárias para habilitar o futuro da organização.
+            </p>
+        </section>
+
+        <!-- Bloco 3: Caminho -->
+        <section id="path" class="mb-16 bg-white p-6 sm:p-8 rounded-xl shadow-md scroll-mt-20">
+            <h3 class="text-2xl font-bold text-center mb-8">O Caminho Para Chegarmos à Visão de Sucesso</h3>
+            <div class="text-gray-600 leading-relaxed max-w-4xl mx-auto">
+                <p class="mb-4">Neste momento, a organização aprovou uma nova stack de tecnologia que será implementada em quatro camadas (SAP, Best of Breeds, IAs Proprietárias e Auto-serviço). Essa estrutura nos dará todas as ferramentas para atingir o patamar de referência de um modelo skills-based.</p>
+                <p class="mb-6 font-semibold text-center py-3 bg-yellow-50 text-yellow-800 rounded-lg">Contudo, esta stack só estará completamente pronta em 2027.</p>
+                <p class="mb-6">Por conta disso, precisamos pilotar o modelo em menor escala para obter respostas a perguntas críticas antes da implementação em larga escala:</p>
+                <ul class="space-y-3 list-disc list-inside">
+                    <li>Como este modelo funcionaria na prática dentro da cultura do GB?</li>
+                    <li>Seremos capazes de, efetivamente, responder às perguntas estratégicas que nos fizemos no início do projeto?</li>
+                    <li>Quais são os riscos, ainda não mapeados, de migrar para este novo modelo operacional?</li>
+                    <li>Quais os trade-offs que teremos em pilotar o modelo de forma antecipada e quais são os habilitadores para que o piloto tenha sucesso?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Bloco 4: Governança e Roadmap -->
+        <section id="governance" class="mb-16 scroll-mt-20">
+            <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold text-center mb-2">Governança</h3>
+                <p class="text-center text-gray-600 mb-8">Estruturamos a governança do projeto da seguinte forma:</p>
+                <div id="matriz-raci-container"></div>
+            </div>
+        </section>
+
+        <section id="roadmap" class="scroll-mt-20">
+            <div class="bg-white p-6 sm:p-8 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold text-center mb-8">Roadmap de Execução</h3>
+                <div id="timeline-container"></div>
+                <div id="roadmap-phases-container" class="space-y-12 mt-12"></div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-white mt-16 py-6">
+        <div class="container mx-auto text-center text-gray-500">
+            <p>&copy; 2025 Organização. Roadmap de Implementação Interativo.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectStartDate = new Date('2025-08-18T12:00:00Z');
+
+            const roadmapData = [
+                {
+                    id: 'fase-0',
+                    title: '0 - Estruturação do projeto',
+                    duration: '2-3 semanas',
+                    start: 0,
+                    weeks: 3,
+                    pains: [
+                        "Falta clareza de como podemos pilotar um modelo de Skills no GB antes de termos a stack de tecnologia pronta.",
+                        "Ausência de definição de responsáveis e roadmap inicial para criação do projeto.",
+                        "Definir quais são os habilitadores de cada etapa."
+                    ],
+                    activities: [
+                        "Definição do Problema, Mapeamento de Stakeholders, Definição de Escopo, Cronograma e Governança."
+                    ],
+                    outputs: [
+                        "Construção detalhada do roadmap.",
+                        "Definição de responsabilidades e times.",
+                        "Elaboração do plano de governança."
+                    ],
+                    enablers: [
+                        "Disponibilidade de agendas de stakeholders"
+                    ]
+                },
+                {
+                    id: 'fase-1',
+                    title: '1 - Modelo de Taxonomia',
+                    duration: '4-6 semanas',
+                    start: 3,
+                    weeks: 6,
+                    pains: [
+                        "Necessidade de definir a taxonomia a ser utilizada e garantir sua conexão com o modelo de referência (Best of Breed).",
+                        "Precisamos definir os níveis de proficiência dentro da taxonomia, segmentando-os por senioridade.",
+                        "Definir trade-offs para sucesso do piloto."
+                    ],
+                    activities: [
+                        "Definição de qual taxonomia utilizar, definir réguas de proficiência em cada skill, definir skills universais vs skills de cargos específicos."
+                    ],
+                    outputs: [
+                        "Dicionário de Competências Universais.",
+                        "Documento de Definição da Taxonomia.",
+                        "Guia de Níveis de Proficiência."
+                    ],
+                    enablers: [
+                        "Definição da taxonomia base (Ex: Fornecedor ou modelo próprio/base)",
+                        "Definição de amplitude da taxonomia (Ex: Consideramos apenas visão bottom up? Também teremos a visão top down?)"
+                    ]
+                },
+                {
+                    id: 'fase-2',
+                    title: '2 - Skills da VP de Gente',
+                    duration: '10-12 semanas',
+                    start: 9,
+                    weeks: 11,
+                    pains: [
+                        "Ausência de informações sobre as competências necessárias para a VP de Gente por nível, proficiência e função.",
+                        "Inexistência de uma definição clara sobre como conectar os modelos 'bottom-up' (Capabilities do GB) e 'top-down' (Skills das pessoas)."
+                    ],
+                    activities: [
+                        "Mapear todas as skills da VP, definir proficiência ideais e das pessoas que atualmente ocupam os cargos. Organizar informações em uma base de dados. Construir análises sobre principais oportunidades de skills da VP."
+                    ],
+                    outputs: [
+                        "Desenvolvimento da Matriz de Competências em modelo 'T' para toda a VP de Gente.",
+                        "Criação do diagnóstico de skills da VP e análise das principais oportunidades."
+                    ],
+                    enablers: [
+                        "Tempo e disponibilidade dos times"
+                    ]
+                },
+                {
+                    id: 'fase-3',
+                    title: '3 - Piloto dos Produtos+Skills',
+                    duration: 'Aprox. 6 meses',
+                    start: 20,
+                    weeks: 25,
+                    pains: [
+                        "Necessidade de testar a viabilidade e os ganhos do modelo skills-based no RH do GB.",
+                        "Ausência de experiência na organização sobre como implementar o modelo dentro dos produtos de gente."
+                    ],
+                    activities: [
+                        "Adaptação dos produtos para o modelo skills based, construção do plano de change management do RH."
+                    ],
+                    outputs: [
+                        "Atualização dos produtos e lançamento.",
+                        "Kit de Ferramentas para Liderança.",
+                        "Plano de Lançamento.",
+                        "Relatório de Resultados e indicadores do Piloto."
+                    ],
+                    enablers: [
+                        "Tempo e disponibilidade dos times",
+                        "Definição do apetite da organização com cada produto de gente."
+                    ]
+                }
+            ];
+
+            // Injetar Matriz RACI
+            const raciContainer = document.getElementById('matriz-raci-container');
+            raciContainer.innerHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left text-gray-600 raci-table">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <tr>
+                                <th class="w-1/4">Etapa do Projeto</th>
+                                <th>Atração de Talentos</th>
+                                <th>Gestão de Talentos</th>
+                                <th>Educação Corp.</th>
+                                <th>Design Org. e Remuneração</th>
+                                <th>Núcleo de BP's</th>
+                                <th>Demais áreas do RH</th>
+                                <th>Diretores</th>
+                                <th>VP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b">
+                                <td class="font-medium text-gray-900">Estruturação do projeto</td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                                <td><span class="raci-tag raci-a">A</span></td>
+                                <td><span class="raci-tag raci-a">A</span></td>
+                            </tr>
+                            <tr class="bg-gray-50 border-b">
+                                <td class="font-medium text-gray-900">Modelo de Taxonomia</td>
+                                <td><span class="raci-tag raci-c">C</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-c">C</span></td>
+                                <td><span class="raci-tag raci-a">A</span></td>
+                                <td><span class="raci-tag raci-a">A</span></td>
+                            </tr>
+                            <tr class="bg-white border-b">
+                                <td class="font-medium text-gray-900">Skills da VP de Gente</td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                            </tr>
+                            <tr class="bg-gray-50">
+                                <td class="font-medium text-gray-900">Piloto dos Produtos+Skills</td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                                <td><span class="raci-tag raci-i">I</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
+                    <div class="flex items-center"><span class="raci-tag raci-r mr-2">R</span> <span class="text-gray-700"><b>Responsável:</b> Executa a tarefa.</span></div>
+                    <div class="flex items-center"><span class="raci-tag raci-a mr-2">A</span> <span class="text-gray-700"><b>Aprovador:</b> Responsável final.</span></div>
+                    <div class="flex items-center"><span class="raci-tag raci-c mr-2">C</span> <span class="text-gray-700"><b>Consultado:</b> Fornece informações.</span></div>
+                    <div class="flex items-center"><span class="raci-tag raci-i mr-2">I</span> <span class="text-gray-700"><b>Informado:</b> Mantido a par do progresso.</span></div>
+                </div>
+            `;
+
+            // Injetar Cronograma
+            const timelineContainer = document.getElementById('timeline-container');
+            timelineContainer.innerHTML = `
+                <h4 class="text-xl font-bold text-center mb-4">Cronograma Geral do Projeto</h4>
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            `;
+
+            // Injetar Fases
+            const phasesContainer = document.getElementById('roadmap-phases-container');
+            roadmapData.forEach((phase, index) => {
+                const phaseStartDate = addWeeks(projectStartDate, phase.start);
+                const phaseEndDate = addWeeks(projectStartDate, phase.start + phase.weeks);
+
+                const phaseElement = document.createElement('div');
+                phaseElement.id = phase.id;
+                phaseElement.className = 'scroll-mt-20';
+                
+                phaseElement.innerHTML = `
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800">${phase.title}</h3>
+                            <p class="text-blue-600 font-semibold">Duração Estimada: ${phase.duration}</p>
+                            <p class="text-gray-500 text-sm font-medium mt-1">Período: ${formatDate(phaseStartDate)} - ${formatDate(phaseEndDate)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-b border-gray-200 mb-4">
+                        <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                            <button data-phase="${index}" data-tab="pains" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-active">🎯 Dores</button>
+                            <button data-phase="${index}" data-tab="activities" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">⚙️ Atividades</button>
+                            <button data-phase="${index}" data-tab="outputs" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">📄 Outputs</button>
+                            <button data-phase="${index}" data-tab="enablers" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">💡 Habilitadores</button>
+                        </nav>
+                    </div>
+
+                    <div class="tab-content">
+                        <div id="pains-${index}" class="space-y-3">
+                            ${phase.pains.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
+                        </div>
+                        <div id="activities-${index}" class="hidden space-y-3">
+                            ${phase.activities.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
+                        </div>
+                        <div id="outputs-${index}" class="hidden space-y-3">
+                            ${phase.outputs.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
+                        </div>
+                         <div id="enablers-${index}" class="hidden space-y-3">
+                            ${phase.enablers.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
+                        </div>
+                    </div>
+                `;
+                phasesContainer.appendChild(phaseElement);
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const phaseIndex = button.dataset.phase;
+                    const tabId = button.dataset.tab;
+
+                    const parent = button.closest('.scroll-mt-20');
+                    parent.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('tab-active');
+                        btn.classList.add('tab-inactive');
+                    });
+                    button.classList.add('tab-active');
+                    button.classList.remove('tab-inactive');
+
+                    parent.querySelectorAll('.tab-content > div').forEach(content => {
+                        content.classList.add('hidden');
+                    });
+                    document.getElementById(`${tabId}-${phaseIndex}`).classList.remove('hidden');
+                });
+            });
+
+            function addWeeks(date, weeks) {
+                const result = new Date(date);
+                result.setDate(result.getDate() + weeks * 7);
+                return result;
+            }
+
+            function formatDate(date) {
+                return new Intl.DateTimeFormat('pt-BR').format(date);
+            }
+
+            const ctx = document.getElementById('timelineChart').getContext('2d');
+            const timelineChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: roadmapData.map(p => p.title.split(' - ')[1]),
+                    datasets: [{
+                        label: 'Duração',
+                        data: roadmapData.map(p => [addWeeks(projectStartDate, p.start), addWeeks(projectStartDate, p.start + p.weeks)]),
+                        backgroundColor: ['#60a5fa', '#818cf8', '#a78bfa', '#f472b6'],
+                        borderColor: ['#3b82f6', '#6366f1', '#8b5cf6', '#ec4899'],
+                        borderWidth: 1,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'month',
+                                tooltipFormat: 'dd/MM/yyyy',
+                                displayFormats: {
+                                    month: 'MMM yyyy'
+                                }
+                            },
+                            min: projectStartDate,
+                            title: {
+                                display: true,
+                                text: 'Cronograma'
+                            },
+                            grid: {
+                                color: '#e5e7eb'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const phase = roadmapData[context.dataIndex];
+                                    const startDate = addWeeks(projectStartDate, phase.start);
+                                    const endDate = addWeeks(projectStartDate, phase.start + phase.weeks);
+                                    return `${phase.title.split(' - ')[1].trim()}: ${formatDate(startDate)} a ${formatDate(endDate)}`;
+                                }
+                            }
+                        }
+                    },
+                    onClick: (event, elements) => {
+                        if (elements.length > 0) {
+                            const index = elements[0].index;
+                            const phaseId = roadmapData[index].id;
+                            document.getElementById(phaseId).scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
