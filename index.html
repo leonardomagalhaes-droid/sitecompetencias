@@ -7,13 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Corporate Calm -->
-    <!-- Application Structure Plan: A single-page application with a vertical narrative flow. It starts with Block 1 (Reason Why), establishing the strategic context with motivators leading to core principles. Block 2 (Endgame Vision) visually demonstrates the target state. Block 3 (The Path) explains the necessity of a pilot project given the tech stack timeline. Block 4 (Governance & Roadmap) provides the execution details, integrating the previously built RACI matrix and interactive timeline. This structure guides the user from the strategic "why" to the operational "how," making the proposal logical and compelling. A sticky top navigation allows users to jump to any section easily. -->
-    <!-- Visualization & Content Choices: Report Info: Motivators & Principles -> Goal: Inform/Relate -> Presentation: Two-column layout with cards and connecting visual elements -> Interaction: Static, for clarity -> Justification: Clearly separates problems (motivators) from solutions (principles) while showing their direct relationship. Method: HTML/CSS. Report Info: Endgame Vision -> Goal: Organize/Inform -> Viz: HTML/CSS diagram -> Justification: Creates a simple, clear flowchart of the target operating model without complex libraries. Method: HTML/CSS. Report Info: Project Phases & Durations -> Goal: Visualize Change/Timeline -> Viz: Horizontal Bar Chart -> Interaction: Hover for details, click to scroll -> Justification: Provides an immediate overview of the project's schedule. Library: Chart.js. Report Info: RACI Matrix -> Goal: Organize/Inform -> Presentation: Styled HTML table -> Justification: A standard and universally understood format for defining roles and responsibilities. Method: HTML/CSS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -25,8 +22,8 @@
             max-width: 900px;
             margin-left: auto;
             margin-right: auto;
-            height: 300px;
-            max-height: 350px;
+            height: 350px;
+            max-height: 400px;
         }
         .tab-active {
             border-color: #3b82f6;
@@ -127,7 +124,7 @@
                     <div class="space-y-4">
                         <div class="p-4 bg-gray-50 rounded-lg">
                             <h5 class="font-semibold text-blue-600">Tangibilizar a Estratégia do GB</h5>
-                            <p class="text-sm text-gray-600">O modelo skills-based permite que a estratégia de negócio seja traduzida de forma mais eficaz nos mecanismos e produtos de capital humano da organização.</p>
+                            <p class="text-sm text-gray-600">O modelo de competências permite que a estratégia de negócio seja traduzida de forma mais eficaz nos mecanismos e produtos de capital humano da organização.</p>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-lg">
                             <h5 class="font-semibold text-blue-600">Reduzir Subjetividade</h5>
@@ -139,7 +136,7 @@
                         </div>
                         <div class="p-4 bg-gray-50 rounded-lg">
                             <h5 class="font-semibold text-blue-600">Aumentar Eficiência com Tecnologia</h5>
-                            <p class="text-sm text-gray-600">A implementação de skills torna-se mais eficiente com novas tecnologias como IA generativa, reduzindo o trabalho moroso dos times.</p>
+                            <p class="text-sm text-gray-600">A implementação de competências torna-se mais eficiente com novas tecnologias como IA generativa, reduzindo o trabalho moroso dos times.</p>
                         </div>
                     </div>
                 </div>
@@ -147,10 +144,10 @@
                     <h4 class="font-bold text-lg mb-4 text-gray-700">Premissas Norteadoras</h4>
                     <div class="space-y-4">
                         <div class="p-5 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
-                            <p class="font-semibold text-green-800">A organização e o RH se tornarão mais eficientes a partir de um modelo de skills.</p>
+                            <p class="font-semibold text-green-800">A organização e o RH se tornarão mais eficientes a partir de um modelo de competências.</p>
                         </div>
                         <div class="p-5 border-l-4 border-green-500 bg-green-50 rounded-r-lg">
-                            <p class="font-semibold text-green-800">O Modelo de skills tangibiliza como vamos construir a capacidade do GB de executar para as mudanças do futuro.</p>
+                            <p class="font-semibold text-green-800">O Modelo de competências tangibiliza como vamos construir a capacidade do GB de executar para as mudanças do futuro.</p>
                         </div>
                     </div>
                 </div>
@@ -161,7 +158,7 @@
         <section id="vision" class="mb-16 bg-white p-6 sm:p-8 rounded-xl shadow-md scroll-mt-20">
             <h3 class="text-2xl font-bold text-center mb-4">Visão Final do Produto</h3>
             <p class="text-center text-gray-600 max-w-4xl mx-auto mb-8">
-                A visão de "end game" é criar um piloto que valide a hipótese de ganho de eficiência sobre a gestão do capital humano do GB a partir do modelo de skills. **Este piloto focará na construção do modelo Bottom-up (mapeamento de skills existentes)**, enquanto a visão Top-down (desdobramento de capabilities estratégicas) ainda está em construção.
+                A visão de "end game" é criar um piloto que valide a hipótese de ganho de eficiência sobre a gestão do capital humano do GB a partir do modelo de competências. **Este piloto focará na construção do modelo Bottom-up (mapeamento de competências existentes)**, enquanto a visão Top-down (desdobramento de capabilities estratégicas) ainda está em construção.
             </p>
             
             <div class="space-y-6">
@@ -179,9 +176,10 @@
                     <div class="flow-group-box">
                         <span class="flow-group-label">Bottom-up (Foco do Piloto)</span>
                         <div class="grid grid-cols-1 gap-4 items-stretch">
-                            <div class="flow-box">Aplicar taxonomia de skills</div>
-                            <div class="flow-box">Mapear pool de skills</div>
-                            <div class="flow-box">Analisar gaps de skills (Proficiência, cobertura, senioridade, concentração)</div>
+                            <div class="flow-box">Desenhar a taxonomia de competências</div>
+                            <div class="flow-box">Aplicar taxonomia de competências</div>
+                            <div class="flow-box">Mapear pool de competências</div>
+                            <div class="flow-box">Analisar gaps de competências (Proficiência, cobertura, senioridade, concentração)</div>
                         </div>
                     </div>
                 </div>
@@ -216,7 +214,7 @@
             </div>
 
              <p class="text-center text-gray-600 max-w-3xl mx-auto mt-12">
-                Isso nos permitirá saber quais skills temos, quais são mais fáceis de recrutar, quais conseguimos desenvolver e como estamos em relação às skills necessárias para habilitar o futuro da organização.
+                Isso nos permitirá saber quais competências temos, quais são mais fáceis de recrutar, quais podemos emprestar de outras áreas e também quais conseguimos desenvolver. Isso permitirá enxergar como estamos em relação às competências necessárias para habilitar o futuro da organização.
             </p>
         </section>
 
@@ -224,7 +222,7 @@
         <section id="path" class="mb-16 bg-white p-6 sm:p-8 rounded-xl shadow-md scroll-mt-20">
             <h3 class="text-2xl font-bold text-center mb-8">O Caminho Para Chegarmos à Visão de Sucesso</h3>
             <div class="text-gray-600 leading-relaxed max-w-4xl mx-auto">
-                <p class="mb-4">Neste momento, a organização aprovou uma nova stack de tecnologia que será implementada em quatro camadas (SAP, Best of Breeds, IAs Proprietárias e Auto-serviço). Essa estrutura nos dará todas as ferramentas para atingir o patamar de referência de um modelo skills-based.</p>
+                <p class="mb-4">Neste momento, a organização aprovou uma nova stack de tecnologia que será implementada em quatro camadas (SAP, Best of Breeds, IAs Proprietárias e Auto-serviço). Essa estrutura nos dará todas as ferramentas para atingir o patamar de referência de um modelo competências-based.</p>
                 <p class="mb-6 font-semibold text-center py-3 bg-yellow-50 text-yellow-800 rounded-lg">Contudo, esta stack só estará completamente pronta em 2027.</p>
                 <p class="mb-6">Por conta disso, precisamos pilotar o modelo em menor escala para obter respostas a perguntas críticas antes da implementação em larga escala:</p>
                 <ul class="space-y-3 list-disc list-inside">
@@ -273,89 +271,93 @@
                     start: 0,
                     weeks: 3,
                     pains: [
-                        "Falta clareza de como podemos pilotar um modelo de Skills no GB antes de termos a stack de tecnologia pronta.",
+                        "Falta clareza de como podemos pilotar um modelo de competências no GB antes de termos a stack de tecnologia pronta.",
                         "Ausência de definição de responsáveis e roadmap inicial para criação do projeto.",
-                        "Definir quais são os habilitadores de cada etapa."
+                        "Falta clareza sobre quais são os habilitadores de cada etapa."
                     ],
                     activities: [
-                        "Definição do Problema, Mapeamento de Stakeholders, Definição de Escopo, Cronograma e Governança."
+                        "Definição do Problema, Mapeamento de Stakeholders, Definição de Escopo, Cronograma, Governança e Habilitadores."
                     ],
                     outputs: [
-                        "Construção detalhada do roadmap.",
+                        "Construção das dores, atividades e outputs do roadmap.",
                         "Definição de responsabilidades e times.",
-                        "Elaboração do plano de governança."
+                        "Elaboração do plano de governança. (RACI)"
                     ],
                     enablers: [
-                        "Disponibilidade de agendas de stakeholders"
+                        "Disponibilidade de agendas de stakeholders."
                     ]
                 },
                 {
                     id: 'fase-1',
                     title: '1 - Modelo de Taxonomia',
-                    duration: '4-6 semanas',
+                    duration: '14-18 semanas',
                     start: 3,
-                    weeks: 6,
+                    weeks: 16,
                     pains: [
                         "Necessidade de definir a taxonomia a ser utilizada e garantir sua conexão com o modelo de referência (Best of Breed).",
-                        "Precisamos definir os níveis de proficiência dentro da taxonomia, segmentando-os por senioridade.",
-                        "Definir trade-offs para sucesso do piloto."
+                        "Ausência dos níveis de proficiência dentro da taxonomia, segmentando-os por senioridade.",
+                        "Ausência da definição de trade-offs sobre modelo de taxonomia adotado (Ex: profundidade da taxonomia vs capabilities e desdobramentos do CFUT)."
                     ],
                     activities: [
-                        "Definição de qual taxonomia utilizar, definir réguas de proficiência em cada skill, definir skills universais vs skills de cargos específicos."
+                        "Definição de qual taxonomia utilizar, nível de profundidade da taxonomia, definir réguas de proficiência em cada competência, definir competências universais vs competências de cargos específicos.",
+                        "Definir como será a conexão entre modelo de capabilities e competências do GB."
                     ],
                     outputs: [
                         "Dicionário de Competências Universais.",
                         "Documento de Definição da Taxonomia.",
-                        "Guia de Níveis de Proficiência."
+                        "Guia de Níveis de Proficiência.",
+                        "Frame de Desdobramento do modelo de capabilities no modelo de competências."
                     ],
                     enablers: [
-                        "Definição da taxonomia base (Ex: Fornecedor ou modelo próprio/base)",
-                        "Definição de amplitude da taxonomia (Ex: Consideramos apenas visão bottom up? Também teremos a visão top down?)"
+                        "Definição da taxonomia base (Ex: Fornecedor ou modelo próprio/base).",
+                        "Definição da conexão dos capabilities do GB com o modelo de taxonomia (Ex: Consideramos apenas visão bottom up? Também teremos a visão top down? Como esses modelos conversam?)."
                     ]
                 },
                 {
                     id: 'fase-2',
-                    title: '2 - Skills da VP de Gente',
-                    duration: '10-12 semanas',
-                    start: 9,
-                    weeks: 11,
+                    title: '2 - Competências da VP de Gente',
+                    duration: '12 semanas',
+                    start: 19,
+                    weeks: 12,
                     pains: [
                         "Ausência de informações sobre as competências necessárias para a VP de Gente por nível, proficiência e função.",
-                        "Inexistência de uma definição clara sobre como conectar os modelos 'bottom-up' (Capabilities do GB) e 'top-down' (Skills das pessoas)."
+                        "Inexistência de uma definição clara sobre como conectar os modelos 'bottom-up' (Capabilities do GB) e 'top-down' (competências das pessoas)."
                     ],
                     activities: [
-                        "Mapear todas as skills da VP, definir proficiência ideais e das pessoas que atualmente ocupam os cargos. Organizar informações em uma base de dados. Construir análises sobre principais oportunidades de skills da VP."
+                        "Mapear todas as competências da VP, definir proficiência ideais e das pessoas que atualmente ocupam os cargos. Organizar informações em uma base de dados. Construir análises sobre principais oportunidades de competências da VP."
                     ],
                     outputs: [
-                        "Desenvolvimento da Matriz de Competências em modelo 'T' para toda a VP de Gente.",
-                        "Criação do diagnóstico de skills da VP e análise das principais oportunidades."
+                        "Desenvolvimento da Matriz de competências em modelo 'T' (Horizontal: competências universais GB, Vertical: competências específicas de um cargo.) para toda a VP de Gente.",
+                        "Criação do diagnóstico de competências da VP e análise das principais oportunidades."
                     ],
                     enablers: [
-                        "Tempo e disponibilidade dos times"
+                        "Tempo e disponibilidade dos times."
                     ]
                 },
                 {
                     id: 'fase-3',
-                    title: '3 - Piloto dos Produtos+Skills',
-                    duration: 'Aprox. 6 meses',
-                    start: 20,
-                    weeks: 25,
+                    title: '3 - Piloto dos Produtos+Competências',
+                    duration: '12 semanas',
+                    start: 31,
+                    weeks: 12,
                     pains: [
-                        "Necessidade de testar a viabilidade e os ganhos do modelo skills-based no RH do GB.",
+                        "Necessidade de testar a viabilidade e os ganhos do modelo competências no RH do GB.",
                         "Ausência de experiência na organização sobre como implementar o modelo dentro dos produtos de gente."
                     ],
                     activities: [
-                        "Adaptação dos produtos para o modelo skills based, construção do plano de change management do RH."
+                        "Adaptação dos produtos para o modelo competências, construção do plano de change management do RH."
                     ],
                     outputs: [
                         "Atualização dos produtos e lançamento.",
-                        "Kit de Ferramentas para Liderança.",
-                        "Plano de Lançamento.",
-                        "Relatório de Resultados e indicadores do Piloto."
+                        "Kit de Ferramentas para Liderança/COE’s.",
+                        "Plano de Change.",
+                        "Relatório de Resultados e indicadores do Piloto.",
+                        "Formatação do produto para expansão em outras VP’s."
                     ],
                     enablers: [
-                        "Tempo e disponibilidade dos times",
-                        "Definição do apetite da organização com cada produto de gente."
+                        "Tempo e disponibilidade dos times.",
+                        "Definição do apetite da organização com cada produto de gente.",
+                        "Bons resultados no piloto para garantir preparação para roll-out."
                     ]
                 }
             ];
@@ -395,14 +397,14 @@
                                 <td><span class="raci-tag raci-c">C</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
-                                <td><span class="raci-tag raci-r">R</span></td>
+                                <td><span class="raci-tag raci-c">C</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-c">C</span></td>
                                 <td><span class="raci-tag raci-a">A</span></td>
                                 <td><span class="raci-tag raci-a">A</span></td>
                             </tr>
                             <tr class="bg-white border-b">
-                                <td class="font-medium text-gray-900">Skills da VP de Gente</td>
+                                <td class="font-medium text-gray-900">Competências da VP de Gente</td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
@@ -413,7 +415,7 @@
                                 <td><span class="raci-tag raci-i">I</span></td>
                             </tr>
                             <tr class="bg-gray-50">
-                                <td class="font-medium text-gray-900">Piloto dos Produtos+Skills</td>
+                                <td class="font-medium text-gray-900">Piloto dos Produtos+Competências</td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
                                 <td><span class="raci-tag raci-r">R</span></td>
@@ -464,24 +466,24 @@
                     
                     <div class="border-b border-gray-200 mb-4">
                         <nav class="-mb-px flex space-x-6" aria-label="Tabs">
-                            <button data-phase="${index}" data-tab="pains" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-active">🎯 Dores</button>
-                            <button data-phase="${index}" data-tab="activities" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">⚙️ Atividades</button>
-                            <button data-phase="${index}" data-tab="outputs" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">📄 Outputs</button>
-                            <button data-phase="${index}" data-tab="enablers" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">💡 Habilitadores</button>
+                            <button data-phase="${phase.id}" data-tab="pains" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-active">🎯 Dores</button>
+                            <button data-phase="${phase.id}" data-tab="activities" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">⚙️ Atividades</button>
+                            <button data-phase="${phase.id}" data-tab="outputs" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">📄 Outputs</button>
+                            <button data-phase="${phase.id}" data-tab="enablers" class="tab-btn whitespace-nowrap py-3 px-1 border-b-2 text-base tab-inactive">💡 Habilitadores</button>
                         </nav>
                     </div>
 
                     <div class="tab-content">
-                        <div id="pains-${index}" class="space-y-3">
+                        <div id="pains-${phase.id}" class="space-y-3">
                             ${phase.pains.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
                         </div>
-                        <div id="activities-${index}" class="hidden space-y-3">
+                        <div id="activities-${phase.id}" class="hidden space-y-3">
                             ${phase.activities.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
                         </div>
-                        <div id="outputs-${index}" class="hidden space-y-3">
+                        <div id="outputs-${phase.id}" class="hidden space-y-3">
                             ${phase.outputs.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
                         </div>
-                         <div id="enablers-${index}" class="hidden space-y-3">
+                         <div id="enablers-${phase.id}" class="hidden space-y-3">
                             ${phase.enablers.map(item => `<p class="text-gray-700 leading-relaxed flex items-start"><span class="mr-3 mt-1 text-blue-500">&#10148;</span><span>${item}</span></p>`).join('')}
                         </div>
                     </div>
@@ -492,7 +494,7 @@
             const tabButtons = document.querySelectorAll('.tab-btn');
             tabButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    const phaseIndex = button.dataset.phase;
+                    const phaseId = button.dataset.phase;
                     const tabId = button.dataset.tab;
 
                     const parent = button.closest('.scroll-mt-20');
@@ -506,7 +508,7 @@
                     parent.querySelectorAll('.tab-content > div').forEach(content => {
                         content.classList.add('hidden');
                     });
-                    document.getElementById(`${tabId}-${phaseIndex}`).classList.remove('hidden');
+                    document.getElementById(`${tabId}-${phaseId}`).classList.remove('hidden');
                 });
             });
 
@@ -520,11 +522,14 @@
                 return new Intl.DateTimeFormat('pt-BR').format(date);
             }
 
+            const gate1Date = addWeeks(projectStartDate, roadmapData.find(p => p.id === 'fase-0').weeks);
+            const gate2Date = addWeeks(gate1Date, roadmapData.find(p => p.id === 'fase-1').weeks);
+
             const ctx = document.getElementById('timelineChart').getContext('2d');
             const timelineChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: roadmapData.map(p => p.title.split(' - ')[1]),
+                    labels: roadmapData.map(p => p.title),
                     datasets: [{
                         label: 'Duração',
                         data: roadmapData.map(p => [addWeeks(projectStartDate, p.start), addWeeks(projectStartDate, p.start + p.weeks)]),
@@ -575,7 +580,45 @@
                                     const phase = roadmapData[context.dataIndex];
                                     const startDate = addWeeks(projectStartDate, phase.start);
                                     const endDate = addWeeks(projectStartDate, phase.start + phase.weeks);
-                                    return `${phase.title.split(' - ')[1].trim()}: ${formatDate(startDate)} a ${formatDate(endDate)}`;
+                                    return `${phase.title.trim()}: ${formatDate(startDate)} a ${formatDate(endDate)}`;
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                gate1: {
+                                    type: 'line',
+                                    xMin: gate1Date,
+                                    xMax: gate1Date,
+                                    borderColor: '#f59e0b',
+                                    borderWidth: 2,
+                                    borderDash: [6, 6],
+                                    label: {
+                                        content: 'Gate 1',
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#f59e0b',
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
+                                },
+                                gate2: {
+                                    type: 'line',
+                                    xMin: gate2Date,
+                                    xMax: gate2Date,
+                                    borderColor: '#f59e0b',
+                                    borderWidth: 2,
+                                    borderDash: [6, 6],
+                                    label: {
+                                        content: 'Gate 2',
+                                        enabled: true,
+                                        position: 'start',
+                                        backgroundColor: '#f59e0b',
+                                        font: {
+                                            weight: 'bold'
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -584,7 +627,9 @@
                         if (elements.length > 0) {
                             const index = elements[0].index;
                             const phaseId = roadmapData[index].id;
-                            document.getElementById(phaseId).scrollIntoView({ behavior: 'smooth' });
+                            if (phaseId.startsWith('fase')) {
+                                document.getElementById(phaseId).scrollIntoView({ behavior: 'smooth' });
+                            }
                         }
                     }
                 }
