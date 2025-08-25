@@ -529,7 +529,7 @@
             const timelineChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: roadmapData.map(p => p.title),
+                    labels: roadmapData.map(p => p.title.split(' - ')[1]),
                     datasets: [{
                         label: 'Duração',
                         data: roadmapData.map(p => [addWeeks(projectStartDate, p.start), addWeeks(projectStartDate, p.start + p.weeks)]),
@@ -580,7 +580,7 @@
                                     const phase = roadmapData[context.dataIndex];
                                     const startDate = addWeeks(projectStartDate, phase.start);
                                     const endDate = addWeeks(projectStartDate, phase.start + phase.weeks);
-                                    return `${phase.title.trim()}: ${formatDate(startDate)} a ${formatDate(endDate)}`;
+                                    return `${phase.title.split(' - ')[1].trim()}: ${formatDate(startDate)} a ${formatDate(endDate)}`;
                                 }
                             }
                         },
